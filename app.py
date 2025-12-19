@@ -4,18 +4,14 @@ import numpy as np
 from ultralytics import YOLO
 from PIL import Image
 
-# ===============================
 # PAGE CONFIG
-# ===============================
 st.set_page_config(
     page_title="Traffic Density Detection",
     page_icon="🚦",
     layout="wide"
 )
 
-# ===============================
 # HEADER
-# ===============================
 st.title("Traffic Density Detection")
 st.subheader("Analisis Kepadatan Lalu Lintas Berbasis Gambar")
 
@@ -26,18 +22,14 @@ Unggah **satu gambar jalan raya**, sistem akan:
 3. Menentukan status lalu lintas
 """)
 
-# ===============================
 # LOAD MODEL
-# ===============================
 @st.cache_resource
 def load_model():
     return YOLO("best.pt")
 
 model = load_model()
 
-# ===============================
 # DENSITY CONFIG
-# ===============================
 WEIGHT_MOTOR = 1
 WEIGHT_CAR = 2
 
@@ -49,9 +41,7 @@ def classify_density(score):
     else:
         return "PADAT", "🔴", "red"
 
-# ===============================
 # UPLOAD IMAGE
-# ===============================
 uploaded_file = st.file_uploader(
     "📤 Upload Gambar Jalan Raya",
     type=["jpg", "jpeg", "png"]
@@ -99,9 +89,6 @@ if uploaded_file:
     density_score = motor_count * WEIGHT_MOTOR + car_count * WEIGHT_CAR
     status, emoji, status_color = classify_density(density_score)
 
-    # ===============================
-    # LAYOUT 2 KOLOM
-    # ===============================
     col1, col2 = st.columns([2, 1])
 
     with col1:
